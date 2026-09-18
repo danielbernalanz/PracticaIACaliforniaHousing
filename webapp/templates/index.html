@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Predicción de precios · California Housing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="contenedor">
+        <header>
+            <h1>🏠 Predicción del precio de la vivienda</h1>
+            <p class="subtitulo">
+                Modelo <strong>RandomForest</strong> · RA1.G · MAE =
+                {{ '%.2f'|format(mae_cien_mil|default(0.3277)) }} (en cientos de miles de $)
+            </p>
+        </header>
+
+        {% if error %}
+        <div class="error">⚠ {{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/predecir">
+            <div class="grid">
+                <!-- Las 8 columnas del dataset (mismo orden que X del modelo) -->
+                {% for col in columnas %}
+                <label class="campo">
+                    <span>{{ nombres[col] }}</span>
+                    <input type="number" step="any" name="{{ col }}"
+                           value="{{ valores[col] if valores else '' }}"
+                           placeholder="0.0" required />
+                </label>
+                {% endfor %}
+            </div>
+            <button type="submit">Calcular precio</button>
+        </form>
+
+        {% if resultado %}
+        <section class="resultado">
+            <h2>Precio estimado</h2>
+            <p class="precio">${{ '{:,.0f}'.format(resultado.precio_usd) }}</p>
+            <p class="detalle">
+                Rango (MAE): ${{ '{:,.0f}'.format(resultado.min_usd) }} –
+                ${{ '{:,.0f}'.format(resultado.max_usd) }}
+            </p>
+            <p class="nota">
+                El modelo expresa el precio en <em>cientos de miles de dólares</em>;
+                aquí se muestra convertido a dólares (×100.000).
+            </p>
+        </section>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -23,3 +23,7 @@ dni.txt
 .idea/
 .DS_Store
 Thumbs.db
+
+# La web SÍ sube su modelo comprimido (30 MB, cabe)
+!webapp/model/
+!webapp/model/*.pkl

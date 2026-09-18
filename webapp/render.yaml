@@ -1,0 +1,13 @@
+# Render Blueprint — despliegue automático desde el repo PracticaIACaliforniaHousing
+# Cuando conectes el repo a Render, él lee este archivo y crea el servicio web.
+services:
+  - type: web
+    name: california-housing-predictor
+    runtime: python
+    rootDir: webapp
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2"
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.9
