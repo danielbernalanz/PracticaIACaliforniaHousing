@@ -29,11 +29,11 @@
                 <!-- Las 8 columnas del dataset (mismo orden que X del modelo) -->
                 {% for col in columnas %}
                 <label class="campo">
-                    <span>{{ nombres[col] }}</span>
-                    <input type="number" step="any" name="{{ col }}"
-                           value="{{ valores[col] if valores else '' }}"
-                           placeholder="0.0" required />
-                </label>
+                     <span>{{ nombres[col] }}</span>
+                     <input type="number" step="any" name="{{ col }}"
+                            value="{{ valores[col] if valores else '' }}"
+                            placeholder="p. ej. 8.3252" required />
+                 </label>
                 {% endfor %}
             </div>
 
