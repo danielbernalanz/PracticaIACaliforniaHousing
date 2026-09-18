@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Predicción de precios · California Housing</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <!-- Leaflet: mapa en que al pinchar rellena Latitud/Longitud automáticamente -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="" />
 </head>
 <body>
     <div class="contenedor">
@@ -32,6 +36,14 @@
                 </label>
                 {% endfor %}
             </div>
+
+            <!-- Mapa: pincha y rellena Latitud/Longitud solos -->
+            <section class="mapa-seccion">
+                <h2>🗺️ Señala la ubicación en el mapa</h2>
+                <div id="mapa" class="mapa"></div>
+                <p class="nota">Haz clic en cualquier punto: Lat/Long se rellenan solos.</p>
+            </section>
+
             <button type="submit">Calcular precio</button>
         </form>
 
@@ -50,5 +62,33 @@
         </section>
         {% endif %}
     </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var mapa = L.map("mapa").setView([37.0, -120.0], 6);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap"
+            }).addTo(mapa)
+
+            var marcador = null;
+            mapa.on("click", function (ev) {
+                // 1) rellena los dos campos del formulario
+                document.querySelector('input[name="Latitude"]').value =
+                    ev.latlng.lat.toFixed(4);
+                document.querySelector('input[name="Longitude"]').value =
+                    ev.latlng.lng.toFixed(4);
+                // 2) coloca/mueve el marcador pinchado
+                if (marcador) {
+                    marcador.setLatLng(ev.latlng);
+                } else {
+                    marcador = L.marker(ev.latlng).addTo(mapa);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

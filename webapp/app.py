@@ -1,9 +1,10 @@
 """
-Webapp de la práctica RA1 - California Housing.
+Webapp de la práctica RA1 · California Housing.
 
 Expone el modelo entrenado (RandomForestRegressor, MAE 0.3277) como un
-servicio web. El usuario introduce las 8 características de una vivienda
-y la web devuelve el precio medio estimado (y su franja de error con el MAE).
+servicio web: el usuario introduce las 8 características de una vivienda
+(2 de ellas, Latitud y Longitud, se pueden rellenar clicando en el mapa)
+y la web devuelve el precio medio estimado con su franja de error (MAE).
 """
 
 import os
@@ -16,6 +17,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RUTA_MODELO = os.path.join(AQUI, "model", "modelo_california.pkl")
 MAE = 0.3277  # cientos de miles de $ (ver recursos/RA1_G)
 
+# Las 8 características, en EL MISMO ORDEN que X del modelo entrenado.
 COLUMNAS = [
     "MedInc",
     "HouseAge",
@@ -26,6 +28,18 @@ COLUMNAS = [
     "Latitude",
     "Longitude",
 ]
+
+# Etiquetas legibles que la plantilla muestra junto a cada campo.
+NOMBRES = {
+    "MedInc": "Ingreso medio (miles de $)",
+    "HouseAge": "Antigüedad (años)",
+    "AveRooms": "Habitaciones promedio",
+    "AveBedrms": "Dormitorios promedio",
+    "Population": "Población del bloque",
+    "AveOccup": "Ocupantes promedio",
+    "Latitude": "Latitud",
+    "Longitude": "Longitud",
+}
 
 modelo = None
 
@@ -44,7 +58,15 @@ app = Flask(__name__)
 @app.route("/")
 def inicio():
     """Página principal con el formulario."""
-    return render_template("index.html", resultado=None, error=None)
+    return render_template(
+        "index.html",
+        columnas=COLUMNAS,
+        nombres=NOMBRES,
+        mae_cien_mil=MAE,
+        valores=None,
+        resultado=None,
+        error=None,
+    )
 
 
 @app.route("/predecir", methods=["POST"])
@@ -62,10 +84,22 @@ def predecir():
             "mae_cien_mil": MAE,
             "inputs": fila,
         }
-        return render_template("index.html", resultado=resultado, error=None)
+        return render_template(
+            "index.html",
+            columnas=COLUMNAS,
+            nombres=NOMBRES,
+            mae_cien_mil=MAE,
+            valores=fila,
+            resultado=resultado,
+            error=None,
+        )
     except (ValueError, KeyError) as e:
         return render_template(
             "index.html",
+            columnas=COLUMNAS,
+            nombres=NOMBRES,
+            mae_cien_mil=MAE,
+            valores=None,
             resultado=None,
             error=f"Valores no válidos: introduce números correctos ({e}).",
         )
