@@ -1,0 +1,4 @@
+Número de nodos: 15
+Número de hojas: 8
+Profundidad máxima: 3
+Árbol guardado en: /home/alumno/Documentos/PracticaIACaliforniaHousing/recursos/RA1_D_arboles_decision/arbol_decision.png

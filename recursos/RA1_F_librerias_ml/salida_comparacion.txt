@@ -1,0 +1,12 @@
+
+=== LinearRegression ===
+  R2: 0.5758
+  MAE: 0.5332
+  Tiempo entrenamiento: 0.002 s
+  Tiempo predicción: 0.0001 s
+
+=== RandomForestRegressor ===
+  R2: 0.8046
+  MAE: 0.3277
+  Tiempo entrenamiento: 6.147 s
+  Tiempo predicción: 0.0854 s

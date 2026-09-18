@@ -1,0 +1,19 @@
+RA1.A - Principios fundamentales de la IA
+==========================================
+
+Diferencia entre IA y Machine Learning (ML):
+La Inteligencia Artificial (IA) es el campo que busca crear sistemas capaces de
+realizar tareas que requieren inteligencia humana (visión, lenguaje, toma de
+decisiones). El Machine Learning es una subdisciplina de la IA: en lugar de
+programar reglas explícitas, el sistema aprende patrones y reglas a partir de
+los datos.
+
+Clasificación del problema que se resuelve con California Housing:
+Es un problema de APRENDIZAJE SUPERVISADO, porque disponemos de las variables
+de entrada (8 características) y de la variable objetivo ya etiquetada
+(MedHouseVal, el precio medio de la vivienda) que el modelo debe aprender a
+predecir. Además es un problema de REGRESIÓN, porque la variable objetivo es
+numérica y continua (un precio en cientos de miles de dólares), y no una
+categoría discreta.
+
+Autor: Daniel Bernal CH

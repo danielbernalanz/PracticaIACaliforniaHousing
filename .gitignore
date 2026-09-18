@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Entornos
+.venv/
+venv/
+env/
+
+# Modelos binarios (el .pkl grande NO se sube al repo; va dentro del .zip)
+*.pkl
+*.joblib
+
+# Dato personal — NUNCA subir suelto
+dni.txt
+
+# IDE/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

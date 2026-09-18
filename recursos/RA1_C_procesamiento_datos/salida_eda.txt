@@ -1,0 +1,17 @@
+Dimensiones del dataset: (20640, 9)
+
+=== COMPROBACIÓN DE VALORES NULOS ===
+MedInc         0
+HouseAge       0
+AveRooms       0
+AveBedrms      0
+Population     0
+AveOccup       0
+Latitude       0
+Longitude      0
+MedHouseVal    0
+dtype: int64
+
+Total de valores nulos: 0
+
+Histograma guardado en: /home/alumno/Documentos/PracticaIACaliforniaHousing/recursos/RA1_C_procesamiento_datos/histograma_medhouseval.png

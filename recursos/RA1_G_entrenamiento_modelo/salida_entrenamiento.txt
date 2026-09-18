@@ -1,0 +1,2 @@
+MAE sobre el conjunto de prueba: 0.3277
+Modelo guardado en: /home/alumno/Documentos/PracticaIACaliforniaHousing/recursos/RA1_G_entrenamiento_modelo/modelo_california.pkl

@@ -1,0 +1,5 @@
+X: (20640, 8), y: (20640,)
+Entrenamiento: X=(16512, 8), y=(16512,)
+Prueba:        X=(4128, 8), y=(4128,)
+
+Prueba superada: las funciones cargan y dividen correctamente.
