@@ -1,21 +1,27 @@
-# California Housing Predictor — Web (Flask)
+# California Housing Predictor — Web App
 
-Mini-web que expone el modelo **RandomForestRegressor** entrenado en la
-práctica RA1 (California Housing) para que cualquiera introduzca las
+Mini-web **Flask** que sirve el modelo **RandomForestRegressor** de la
+práctica RA1.G (California Housing) para que cualquiera introduzca las
 **8 características** de una vivienda y obtenga su **precio medio estimado**.
 
-## Cómo funciona
+## Estructura
 
-- Carga `model/modelo_california.pkl` (modelo exacto de RA1.G, comprimido
-  con joblib `compress=("gzip",9)` para caber en GitHub: ~30 MB).
-- El usuario rellena un formulario con las 8 columnas del dataset
-  (`MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup,
-  Latitude, Longitude`) en **el mismo orden** en que el modelo fue entrenado.
-- `RandomForestRegressor.predict()` devuelve el precio en **cientos de
-  miles de $**; la web lo convierte a dólares y muestra el rango usando el
-  **MAE 0.3277** de la práctica.
+```
+webapp/
+├── app.py                   # Flask: formulario + API JSON
+├── modelo_california.pkl    # modelo entrenado (rosa: recurso RA1.G) ~30 MB
+├── model/
+│   └── modelo_california.pkl   # copia usada por la app (misma firma)
+├── templates/
+│   └── index.html           # formulario de 8 campos
+├── static/
+│   └── style.css            # estilos
+├── requirements.txt         # Flask, gunicorn, sklearn, joblib, pandas
+├── render.yaml              # config de despliegue en Render (Blueprint)
+└── README.md
+```
 
-## Ejecutar en local
+## Correr en local
 
 ```bash
 cd webapp
@@ -26,22 +32,25 @@ python app.py
 # abre http://127.0.0.1:5000
 ```
 
-## Desplegar en Render
+## Predecir
 
-1. Sube el proyecto a GitHub (este repo ya está conectado).
-2. En [render.com](https://render.com) → **New → Blueprint** → selecciona
-   este repo. Render lee `webapp/render.yaml` automáticamente.
-3. Espera el despliegue (~2–3 min). La web queda en
-   `https://california-housing-predictor.onrender.com`.
-4. La primera carga tarda unos segundos (el servicio free "duerme" tras
-   15 min de inactividad y se despierta bajo demanda).
+Rellena los 8 campos:
+`MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude`
+y pulsa **Calcular**. La web responde con el precio estimado en dólares y
+su franja razonable (usando el MAE 0.3277 ≈ 32 770 $ del modelo final).
 
-## Rutas
+### API JSON (opcional)
 
-- `GET /` → formulario con las 8 características.
-- `POST /predecir` → envío del formulario, devuelve el precio estimado.
-- `GET /api/predecir` → misma predicción en JSON (para clientes API).
+`POST /api/predecir` con JSON:
 
-## Requisitos
+```json
+{
+  "MedInc": 8.3252, "HouseAge": 41, "AveRooms": 6.98, "AveBedrms": 1.02,
+  "Population": 322, "AveOccup": 2.55, "Latitude": 37.88, "Longitude": -122.23
+}
+```
 
-Ver `requirements.txt` (Flask, joblib, numpy, pandas, scikit-learn).
+Devuelve `{precio_usd: 431400, precio_min_usd: ..., precio_max_usd: ...}`.
+
+> Nota: el valor objetivo del dataset está **en cientos de miles de $**
+> (MedHouseVal). La web multiplica por 100 000 para mostrar dólares.

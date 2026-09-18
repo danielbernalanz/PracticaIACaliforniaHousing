@@ -57,9 +57,9 @@ def predecir():
         resultado = {
             "precio_cien_mil": round(precio_cien_mil, 4),
             "precio_usd": round(precio_cien_mil * 100000, 0),
+            "min_usd": round((precio_cien_mil - MAE) * 100000, 0),
+            "max_usd": round((precio_cien_mil + MAE) * 100000, 0),
             "mae_cien_mil": MAE,
-            "precio_min_usd": round((precio_cien_mil - MAE) * 100000, 0),
-            "precio_max_usd": round((precio_cien_mil + MAE) * 100000, 0),
             "inputs": fila,
         }
         return render_template("index.html", resultado=resultado, error=None)
